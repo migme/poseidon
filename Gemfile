@@ -7,6 +7,8 @@ gemspec
 
 gem 'coveralls', require: false
 
+gem 'pry-byebug'
+
 group :development do
   gem 'github-markup', :platform => :ruby
   gem 'redcarpet', :platform => :ruby
