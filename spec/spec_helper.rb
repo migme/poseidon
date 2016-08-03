@@ -27,3 +27,5 @@ include Poseidon
 
 require 'coveralls'
 Coveralls.wear!
+
+require 'pry-byebug'

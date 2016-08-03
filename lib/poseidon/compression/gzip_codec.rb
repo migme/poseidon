@@ -16,7 +16,7 @@ module Poseidon
 
       def self.decompress(s)
         io = StringIO.new(s)
-        Zlib::GzipReader.new(io).read
+        Zlib::GzipReader.new(io, encoding: Encoding::UTF_8).read
       end
     end
   end

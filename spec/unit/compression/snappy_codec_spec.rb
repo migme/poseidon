@@ -43,7 +43,7 @@ RSpec.describe Poseidon::Compression::SnappyCodec do
     buf = Protocol::ResponseBuffer.new(described_class.decompress(str))
     msg = MessageSet.read_without_size(buf).flatten
     expect(msg.size).to eq(1)
-    expect(msg[0].value).to eq(%({"a":"UtaitILHMDAAAAfU","b":"日本"}))
+    expect(msg[0].value).to eq(%({"a":"UtaitILHMDAAAAfU","b":"\xE6\x97\xA5\xE6\x9C\xAC"}).force_encoding(Encoding::ASCII))
   end
 
 end
