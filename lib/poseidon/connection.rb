@@ -51,7 +51,7 @@ module Poseidon
       req = ProduceRequest.new( request_common(:produce),
                                 required_acks,
                                 timeout,
-                                messages_for_topics) 
+                                messages_for_topics)
       send_request(req)
       if required_acks != 0
         read_response(ProduceResponse)
@@ -71,7 +71,7 @@ module Poseidon
                                 REPLICA_ID,
                                 max_wait_time,
                                 min_bytes,
-                                topic_fetches) 
+                                topic_fetches)
       send_request(req)
       read_response(FetchResponse)
     end
@@ -124,8 +124,15 @@ module Poseidon
     end
 
     def ensure_read_or_timeout(maxlen)
-      if IO.select([@socket], nil, nil, @socket_timeout_ms / 1000.0)
-         @socket.read(maxlen)
+      current_io = IO.select([@socket], nil, nil, @socket_timeout_ms / 1000.0)
+      current_io = unless current_io
+        sleep(2)
+        IO.select([@socket], nil, nil, @socket_timeout_ms / 1000.0)
+      else
+        current_io
+      end
+      if current_io
+        @socket.read(maxlen)
       else
          raise TimeoutException.new
       end
